@@ -19,5 +19,7 @@ before_install:
   - echo $GCP_KEY_FILE | base64 -d > ./keyfile
   - gcloud auth activate-service-account -q $(jq -r .client_email keyfile) --key-file=./keyfile --project  $(jq -r .project_id keyfile)
   - rm ./keyfile
-  - gcloud container clusters list | grep ERROR | sed 1d $rpt | while read -r a b; do gcloud container clusters delete $a --zone $b --quiet; done
-  - gcloud compute disks list | sed 1d $rpt | while read -r a b c; do gcloud compute disks delete $a --zone $b --quiet; done
+
+after_script:
+  - gcloud container clusters list | grep ERROR | awk '{print $1,$2}' | while read -r a b; do gcloud container clusters delete $a --zone $b --quiet; done
+  - gcloud compute disks list | grep travis | sed 1d $rpt | while read -r a b c; do gcloud compute disks delete $a --zone $b --quiet; done
