@@ -21,3 +21,4 @@ before_install:
   - echo "Cleaning up unused resources"
   - gcloud container clusters list | grep ERROR | sed 1d $rpt | while read -r a b; do gcloud container clusters delete $a --zone $b --quiet; done
   - gcloud compute disks list | sed 1d $rpt | while read -r a b c; do gcloud compute disks delete $a --zone $b --quiet; done
+  
