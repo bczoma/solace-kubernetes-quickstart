@@ -6,7 +6,6 @@ services:
   - docker
 
 before_install:
-  - echo "Cleaning up unused resources"
   - gem install yaml-lint
   - export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
   - echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
@@ -20,6 +19,9 @@ before_install:
   - gcloud auth activate-service-account -q $(jq -r .client_email keyfile) --key-file=./keyfile --project  $(jq -r .project_id keyfile)
   - rm ./keyfile
 
+script:
+  - echo "Cleaning up unused resources"
+  
 after_script:
   - gcloud container clusters list | grep ERROR | awk '{print $1,$2}' | while read -r a b; do gcloud container clusters delete $a --zone $b --quiet; done
   - gcloud compute disks list | grep travis | sed 1d $rpt | while read -r a b c; do gcloud compute disks delete $a --zone $b --quiet; done
