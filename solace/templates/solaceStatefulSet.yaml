@@ -118,6 +118,8 @@ spec:
         volumeMounts:
         - name: config-map
           mountPath: {{ .Values.filepaths.configmap }}
+        - name: config-map-configure
+          mountPath: {{ .Values.filepaths.configmap }}-initialconfig
         - name: secrets
           mountPath: {{ .Values.filepaths.secrets }}
           readOnly: true
@@ -149,6 +151,10 @@ spec:
         - name: config-map
           configMap:
             name: {{ template "solace.fullname" . }}
+            defaultMode: 0755
+        - name: config-map-configure
+          configMap:
+            name: {{ template "solace.fullname" . }}-initialconfig
             defaultMode: 0755
         - name: secrets
           secret:

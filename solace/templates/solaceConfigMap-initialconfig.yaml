@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "solace.fullname" . }}-initialconfig
+  labels:
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    app: {{ template "solace.name" . }}
+data:
+  configure-deployment.sh: |-
+    # Params: $1: admin password
+    APP=`basename "$0"`
+    echo "`date` INFO: ${APP}-Running deployment initial configuration..."
+    # Create message-vpn "MyMessageVpn"
+    echo $(curl -X POST -u  admin:${1} http://localhost:8080/SEMP/v2/config/msgVpns -H "content-type: application/json" -d '{"msgVpnName":"MyMessageVpn","authenticationBasicType":"none","maxMsgSpoolUsage":100,"enabled":true}')
+    # Create queue "MyQueue" on message-vpn "MyMessageVpn"
+    echo $(curl -X POST -u  admin:${1} http://localhost:8080/SEMP/v2/config/msgVpns/MyMessageVpn/queues -H "content-type: application/json" -d '{"queueName":"MyQueue","accessType":"non-exclusive","egressEnabled":true,"ingressEnabled":true,"permission":"delete"}')
+    echo "`date` INFO: ${APP}-Initial configuration complete."

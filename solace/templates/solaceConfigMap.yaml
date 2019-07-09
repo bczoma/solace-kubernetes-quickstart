@@ -74,15 +74,16 @@ data:
 
   config-sync-check.sh: |-
       #!/bin/bash
-{{- if .Values.solace.redundancy }}
+      password=`cat {{ .Values.filepaths.secrets }}/username_admin_password`
       APP=`basename "$0"`
+{{- if .Values.solace.redundancy }}
+      # HA config
       # [TODO] KBARR not using correct method of finding ordinal until we bump min Kubernetes release above 1.8.1
       # https://github.com/kubernetes/kubernetes/issues/40651
       # node_ordinal=$(STATEFULSET_ORDINAL)
       IFS='-' read -ra host_array <<< $(hostname)
       node_ordinal=${host_array[-1]}
       echo "`date` INFO: ${APP}-node ordinal: ${node_ordinal}"
-      password=`cat {{ .Values.filepaths.secrets }}/username_admin_password`
       loop_guard=60
       pause=10
       count=0
@@ -172,14 +173,29 @@ data:
             exit 1 
           fi
         fi # if assert-master
-        # Now can issue {resync_step} command and exit.
+        # Now can issue {resync_step} command.
         {{ .Values.filepaths.configmap }}/semp_query.sh -n admin -p ${password} -u http://localhost:8080/SEMP \
               -q "<rpc><admin><config-sync><${resync_step}><router/></${resync_step}></config-sync></admin></rpc>"
         {{ .Values.filepaths.configmap }}/semp_query.sh -n admin -p ${password} -u http://localhost:8080/SEMP \
               -q "<rpc><admin><config-sync><${resync_step}><vpn-name>default</vpn-name></${resync_step}></config-sync></admin></rpc>"
         echo "`date` INFO: ${APP}-Solace message broker bringup complete for this node."
       fi # if not monitor
+{{- else }}
+      # nonHA config
+      node_ordinal=0
+      resync_step=assert-master
+      # Wait for the SEMP API before continuing
+      until curl -sL -m 5 -X GET -w "%{http_code}" http://localhost:8080 | grep 200 ; do echo "`date` INFO: ${APP}-Waiting for the SEMP API to come up..."; sleep 10; done; sleep 10
 {{- end }}
+      # Hook to execute initial deployment configuration - by the locally active node only
+      if [ "${node_ordinal}" != "2" ]; then
+        if [ "${resync_step}" = "assert-master" ]; then
+          # wait for the node to become active then invoke config script
+          while [ "$(cat /tmp/activity_state)" != "true" ] ; do sleep 5; done; sleep 5
+          # execute config here
+          {{ .Values.filepaths.configmap }}-initialconfig/configure-deployment.sh ${password}
+        fi
+      fi
       exit 0
 
 
