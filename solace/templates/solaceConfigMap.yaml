@@ -9,8 +9,8 @@ metadata:
     app: {{ template "solace.name" . }}
 data:
   init.sh: |-
-    # export username_admin_passwordfilepath={{ .Values.filepaths.secrets }}/username_admin_password
-      export username_admin_password=`cat {{ .Values.filepaths.secrets }}/username_admin_password`
+    # export username_admin_passwordfilepath=/mnt/disks/secrets/username_admin_password
+      export username_admin_password=`cat /mnt/disks/secrets/username_admin_password`
       export username_admin_globalaccesslevel=admin
       export service_ssh_port='2222'
       export service_webtransport_port='60080'
@@ -47,7 +47,7 @@ data:
       export routername=$(echo $(hostname) | sed 's/-//g')
       export redundancy_enable=yes
       export configsync_enable=yes
-      export redundancy_group_password=`cat {{ .Values.filepaths.secrets }}/username_admin_password`
+      export redundancy_group_password=`cat /mnt/disks/secrets/username_admin_password`
       export redundancy_group_node_${service_name}0_nodetype=message_routing
       export redundancy_group_node_${service_name}0_connectvia=${service}-0.${service}-discovery.${namespace}.svc
       export redundancy_group_node_${service_name}1_nodetype=message_routing
@@ -82,7 +82,7 @@ data:
       IFS='-' read -ra host_array <<< $(hostname)
       node_ordinal=${host_array[-1]}
       echo "`date` INFO: ${APP}-node ordinal: ${node_ordinal}"
-      password=`cat {{ .Values.filepaths.secrets }}/username_admin_password`
+      password=`cat /mnt/disks/secrets/username_admin_password`
       loop_guard=60
       pause=10
       count=0
@@ -91,7 +91,7 @@ data:
       #exclude monitor node from config-sync check
       if [ "${node_ordinal}" != "2" ]; then
         while [ ${count} -lt ${loop_guard} ]; do 
-          role_results=`{{ .Values.filepaths.configmap }}/semp_query.sh -n admin -p ${password} -u http://localhost:8080/SEMP \
+          role_results=`/mnt/disks/solace/semp_query.sh -n admin -p ${password} -u http://localhost:8080/SEMP \
                 -q "<rpc><show><redundancy><detail/></redundancy></show></rpc>" \
                 -v "/rpc-reply/rpc/show/redundancy/active-standby-role[text()]"`
           run_time=$((${count} * ${pause}))
@@ -117,7 +117,7 @@ data:
         count=0
         echo "`date` INFO: ${APP}-Management API is up, determined that this node's active-standby role is: ${role}"
         while [ ${count} -lt ${loop_guard} ]; do 
-          online_results=`{{ .Values.filepaths.configmap }}/semp_query.sh -n admin -p ${password} -u http://localhost:8080/SEMP \
+          online_results=`/mnt/disks/solace/semp_query.sh -n admin -p ${password} -u http://localhost:8080/SEMP \
               -q "<rpc><show><redundancy><detail/></redundancy></show></rpc>" \
               -v "/rpc-reply/rpc/show/redundancy/virtual-routers/${role}/status/activity[text()]"`
           local_activity=`echo ${online_results} | xmllint -xpath "string(returnInfo/valueSearchResult)" -`
@@ -152,7 +152,7 @@ data:
           count=0
           echo "`date` INFO: ${APP}-Waiting for mate activity state to be 'Standby'"
           while [ ${count} -lt ${loop_guard} ]; do 
-            online_results=`{{ .Values.filepaths.configmap }}/semp_query.sh -n admin -p ${password} -u http://localhost:8080/SEMP \
+            online_results=`/mnt/disks/solace/semp_query.sh -n admin -p ${password} -u http://localhost:8080/SEMP \
                 -q "<rpc><show><redundancy><detail/></redundancy></show></rpc>" \
                 -v "/rpc-reply/rpc/show/redundancy/virtual-routers/${role}/status/detail/priority-reported-by-mate/summary[text()]"`
             mate_activity=`echo ${online_results} | xmllint -xpath "string(returnInfo/valueSearchResult)" -`
@@ -173,9 +173,9 @@ data:
           fi
         fi # if assert-master
         # Now can issue {resync_step} command and exit.
-        {{ .Values.filepaths.configmap }}/semp_query.sh -n admin -p ${password} -u http://localhost:8080/SEMP \
+        /mnt/disks/solace/semp_query.sh -n admin -p ${password} -u http://localhost:8080/SEMP \
               -q "<rpc><admin><config-sync><${resync_step}><router/></${resync_step}></config-sync></admin></rpc>"
-        {{ .Values.filepaths.configmap }}/semp_query.sh -n admin -p ${password} -u http://localhost:8080/SEMP \
+        /mnt/disks/solace/semp_query.sh -n admin -p ${password} -u http://localhost:8080/SEMP \
               -q "<rpc><admin><config-sync><${resync_step}><vpn-name>default</vpn-name></${resync_step}></config-sync></admin></rpc>"
         echo "`date` INFO: ${APP}-Solace message broker bringup complete for this node."
       fi # if not monitor
@@ -222,7 +222,7 @@ data:
     version=${1}
     IFS='-' read -ra host_array <<< $(hostname)
     node_ordinal=${host_array[-1]}
-    password=`cat {{ .Values.filepaths.secrets }}/username_admin_password`
+    password=`cat /mnt/disks/secrets/username_admin_password`
 
     # For upgrade purposes, ensure redundancy is up only when the pod is started
     redundacycheck_file=/tmp/redundacycheck

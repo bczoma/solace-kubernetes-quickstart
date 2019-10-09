@@ -2,10 +2,10 @@ apiVersion: v1
 entries:
   solace:
   - apiVersion: v1
-    created: "2019-10-09T13:47:00.2979525-04:00"
+    created: "2019-10-09T15:34:04.5243526-04:00"
     description: Deploy Solace PubSub+ Message Broker Singleton or HA Cluster onto
       a Kubernetes Cluster
-    digest: a55cc5aad185e77ad2a810bd065ebedeb4d57e79c8318fe1d55f3b0fe3b3bb86
+    digest: 7a784feeb3324c447d5989105fc69d00a28fdf063f81da12ea494724036b0292
     home: http://dev.solace.com
     icon: https://solace.com/wp-content/uploads/2018/05/Solace_Logo_Green_360x100-1.png
     keywords:
@@ -22,7 +22,7 @@ entries:
     - https://bczoma.github.io/solace-kubernetes-quickstart/helm-charts/solace-1.1.0.tgz
     version: 1.1.0
   - apiVersion: v1
-    created: "2019-10-09T13:47:00.2969766-04:00"
+    created: "2019-10-09T15:34:04.5233683-04:00"
     description: Deploy Solace PubSub+ Message Broker Singleton or HA Cluster onto
       a Kubernetes Cluster
     digest: d7194c7bac1f0725484cb4da4cd5407b8ffb0ddc3c6476d10d3c1b7e6347cacc
@@ -41,4 +41,4 @@ entries:
     urls:
     - https://bczoma.github.io/solace-kubernetes-quickstart/helm-charts/solace-1.0.1.tgz
     version: 1.0.1
-generated: "2019-10-09T13:47:00.2960194-04:00"
+generated: "2019-10-09T15:34:04.5214159-04:00"

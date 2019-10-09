@@ -29,7 +29,7 @@ spec:
       containers:
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        imagePullPolicy: {{ .Values.image.pullPolicy | default "IfNotPresent" }}
         resources:
           requests:
 {{- if eq .Values.solace.size "dev" }}
@@ -82,12 +82,12 @@ spec:
 {{- if semverCompare ">=1.7-0" .Capabilities.KubeVersion.GitVersion }}
           exec:
             command:
-            - {{ .Values.filepaths.configmap }}/readiness_check.sh
+            - /mnt/disks/solace/readiness_check.sh
             - "7"
 {{- else }}
           exec:
             command:
-            - {{ .Values.filepaths.configmap }}/readiness_check.sh
+            - /mnt/disks/solace/readiness_check.sh
             - "6"
 {{- end }}
         securityContext:
@@ -113,17 +113,17 @@ spec:
          - bash
          - "-ec"
          - |
-           source {{ .Values.filepaths.configmap }}/init.sh
+           source /mnt/disks/solace/init.sh
            # not using postinstall hooks because of order dependencies
            # launch config check then Solace so VCMR can provide return code
-           nohup {{ .Values.filepaths.configmap }}/config-sync-check.sh &
+           nohup /mnt/disks/solace/config-sync-check.sh &
            /usr/sbin/boot.sh
 
         volumeMounts:
         - name: config-map
-          mountPath: {{ .Values.filepaths.configmap }}
+          mountPath: /mnt/disks/solace
         - name: secrets
-          mountPath: {{ .Values.filepaths.secrets }}
+          mountPath: /mnt/disks/secrets
           readOnly: true
         - name: dshm
           mountPath: /dev/shm
@@ -197,7 +197,7 @@ spec:
             pdName: {{ .Values.storage.existingVolume }}
             fsType: ext4
       {{- end}}
-    {{ else }} #end existingVolume
+    {{- else }} #end existingVolume
           emptyDir: {}
     {{- end }} #end !persistent
   {{ else }}
@@ -205,13 +205,10 @@ spec:
   - metadata:
       name: data
     spec:
-    {{- if .Values.storage.useStorageClass }}
+  {{- if .Values.storage.useStorageClass }}
       storageClassName: {{ .Values.storage.useStorageClass }}
-    {{- else if .Values.storage.type }}
+  {{- else if .Values.storage.type }}
       storageClassName: {{ .Release.Name }}-{{ .Values.storage.type }}
-    {{- else }}
-      storageClassName: standard
-    {{- end}}
   {{- end}}
       accessModes: [ "ReadWriteOnce" ]
       resources:
