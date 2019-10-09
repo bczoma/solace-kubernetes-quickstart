@@ -22,13 +22,17 @@ spec:
         app: {{ template "solace.name" . }}
         release: {{ .Release.Name }}
     spec:
+{{- if .Values.image.pullSecretName }}
+      imagePullSecrets:
+      - name: {{ .Values.image.pullSecretName}}
+{{- end}}
       containers:
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         resources:
           requests:
-{{- if eq .Values.solace.size "dev100" }}
+{{- if eq .Values.solace.size "dev" }}
             cpu: "0.2"
             memory: 0.8Gi
 {{- else if eq .Values.solace.size "prod100" }}
@@ -48,7 +52,7 @@ spec:
             memory: 56Gi
 {{- end }}
           limits:
-{{- if eq .Values.solace.size "dev100" }}
+{{- if eq .Values.solace.size "dev" }}
             cpu: "1"
             memory: 2Gi
 {{- else if eq .Values.solace.size "prod100" }}
@@ -144,9 +148,27 @@ spec:
           mountPath: /usr/sw/internalSpool/softAdb
           subPath: softAdb
 {{- end }} #end !nfs
-        ports:{{ range $item := .Values.service.internalPort }}
+        ports:
+        - containerPort: 2222
+          protocol: TCP
+        - containerPort: 8080
+          protocol: TCP
+        - containerPort: 55555
+          protocol: TCP
+        - containerPort: 55003
+          protocol: TCP
+        - containerPort: 55443
+          protocol: TCP
+        - containerPort: 60943
+          protocol: TCP
+        - containerPort: 60080
+          protocol: TCP
+        - containerPort: 60443
+          protocol: TCP
+        {{- range $item := .Values.service.addInternalPort }}
         - containerPort: {{ $item.port }}
-          protocol: {{ $item.protocol }}{{end}}
+          protocol: {{ $item.protocol }}
+        {{- end}}
       volumes:
         - name: config-map
           configMap:
@@ -183,10 +205,13 @@ spec:
   - metadata:
       name: data
     spec:
-  {{- if .Values.storage.useStorageClass }}
+    {{- if .Values.storage.useStorageClass }}
       storageClassName: {{ .Values.storage.useStorageClass }}
-  {{- else if .Values.storage.type }}
+    {{- else if .Values.storage.type }}
       storageClassName: {{ .Release.Name }}-{{ .Values.storage.type }}
+    {{- else }}
+      storageClassName: standard
+    {{- end}}
   {{- end}}
       accessModes: [ "ReadWriteOnce" ]
       resources:
