@@ -1,7 +1,7 @@
 apiVersion: v1
 description: Deploy Solace PubSub+ Message Broker Singleton or HA Cluster onto a Kubernetes Cluster
 name: solace
-version: 1.1.0
+version: 1.1.1
 icon: https://solace.com/wp-content/uploads/2018/05/Solace_Logo_Green_360x100-1.png
 maintainers:
   - name: support
