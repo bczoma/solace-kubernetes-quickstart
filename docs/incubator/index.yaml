@@ -19,6 +19,6 @@ entries:
     sources:
     - https://github.com/SolaceProducts/solace-kubernetes-quickstart
     urls:
-    - https://bczoma.github.io/solace-kubernetes-quickstart/helm-charts/incubator/solace-1.1.1.tgz
+    - https://bczoma.github.io/solace-kubernetes-quickstart/incubator/solace-1.1.1.tgz
     version: 1.1.1
 generated: "2019-10-17T12:33:21.7180157-04:00"
