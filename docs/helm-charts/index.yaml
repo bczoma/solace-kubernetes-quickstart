@@ -1,44 +1,34 @@
 apiVersion: v1
 entries:
-  solace:
+  pubsubplus:
   - apiVersion: v1
-    created: "2019-10-09T15:34:04.5243526-04:00"
+    created: "2019-10-18T13:53:47.0153168-04:00"
     description: Deploy Solace PubSub+ Message Broker Singleton or HA Cluster onto
       a Kubernetes Cluster
-    digest: 7a784feeb3324c447d5989105fc69d00a28fdf063f81da12ea494724036b0292
-    home: http://dev.solace.com
+    digest: 0270972f9760389dce301dcde669a3c0cf9a2ac0b14da658eb3ed14c166fef51
+    home: https://dev.solace.com
     icon: https://solace.com/wp-content/uploads/2018/05/Solace_Logo_Green_360x100-1.png
     keywords:
     - solace
+    - pubsubplus
     - pubsub+
     - message broker
+    - message queue
+    - event broker
+    - advanced event broker
     maintainers:
+    - email: balazs.czoma@solace.com
+      name: Balazs Czoma
+    - email: ken.barr@solace.com
+      name: Ken Barr
+    - email: philippe.khalife@solace.com
+      name: Philippe Khalife
     - email: support@solace.com
-      name: support
-    name: solace
+      name: Solace Support
+    name: pubsubplus
     sources:
     - https://github.com/SolaceProducts/solace-kubernetes-quickstart
     urls:
-    - https://bczoma.github.io/solace-kubernetes-quickstart/helm-charts/solace-1.1.0.tgz
-    version: 1.1.0
-  - apiVersion: v1
-    created: "2019-10-09T15:34:04.5233683-04:00"
-    description: Deploy Solace PubSub+ Message Broker Singleton or HA Cluster onto
-      a Kubernetes Cluster
-    digest: d7194c7bac1f0725484cb4da4cd5407b8ffb0ddc3c6476d10d3c1b7e6347cacc
-    home: http://dev.solace.com
-    icon: https://solace.com/wp-content/uploads/2018/05/Solace_Logo_Green_360x100-1.png
-    keywords:
-    - solace
-    - pubsub+
-    - message broker
-    maintainers:
-    - email: support@solace.com
-      name: support
-    name: solace
-    sources:
-    - https://github.com/SolaceProducts/solace-kubernetes-quickstart
-    urls:
-    - https://bczoma.github.io/solace-kubernetes-quickstart/helm-charts/solace-1.0.1.tgz
-    version: 1.0.1
-generated: "2019-10-09T15:34:04.5214159-04:00"
+    - https://bczoma.github.io/solace-kubernetes-quickstart/helm-charts/pubsubplus-2.0.0-SNAPSHOT.tgz
+    version: 2.0.0-SNAPSHOT
+generated: "2019-10-18T13:53:47.0133366-04:00"
