@@ -14,17 +14,14 @@ This involves installing Helm in your client and if using Helm v2 (default for n
 
 ### TL;DR;
 
-This will install Helm v2 and deploy Tiller.
-
-1. Install the Helm client following [your platform-specific instructions](//helm.sh/docs/using_helm/#installing-the-helm-client ). For Linux, use
-
+1. Install the Helm client following [your platform-specific instructions](//helm.sh/docs/using_helm/#installing-the-helm-client ). For Linux, use:
 ```shell
 export DESIRED_VERSION=v2.14.3
 curl -sSL https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash
 ```
 
-2. Create a cluster-admin role and init Helm following [the Example: Service account with cluster-admin role](//helm.sh/docs/using_helm/#example-service-account-with-cluster-admin-role ). (Use the provided content to create a `rbac-config.yaml` file then execute the commands)<br/><br/>
-**Important:** this will grant Tiller  `cluster-admin` privileges to enable getting started on most platforms. This should be secured for Production environments, see section [Securing Helm and Tiller](#securing-helm)
+2. Create a cluster-admin role and init Helm following [the Example: Service account with cluster-admin role](//helm.sh/docs/using_helm/#example-service-account-with-cluster-admin-role ). (Use the provided content to create an `rbac-config.yaml` file then execute the commands)<br/><br/>
+**Important:** this will grant Tiller `cluster-admin` privileges to enable getting started on most platforms. This should be secured for Production environments, see section [Securing Helm and Tiller](#securing-helm)
 
 
 ### Introduction
