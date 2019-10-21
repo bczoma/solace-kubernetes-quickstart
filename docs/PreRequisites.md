@@ -1,7 +1,5 @@
 # Pre-requisites for the Solace PubSub+ Deployment
 
-<!-- TOC -->autoauto- [Pre-requisites for the Solace PubSub+ Deployment](#pre-requisites-for-the-solace-pubsub-deployment)auto  - [Perform any necessary platform-specific setup](#perform-any-necessary-platform-specific-setup)auto  - [Deploy Helm package manager](#deploy-helm-package-manager)auto    - [TL;DR;](#tldr)auto    - [Introduction](#introduction)auto    - [Installing Helm v2](#installing-helm-v2)auto    - [Secure Helm and Tiller<a name="securing-helm"></a>](#secure-helm-and-tillera-namesecuring-helma)auto    - [Using Helm](#using-helm)auto    - [Helm upgrade and rollback](#helm-upgrade-and-rollback)auto    - [Helm delete](#helm-delete)auto    - [Using Helm v3](#using-helm-v3)autoauto<!-- /TOC -->
-
 ## Perform any necessary platform-specific setup
 
 - GCP
@@ -10,11 +8,13 @@
 - OpenShift
 - Minikube
 
-## Deploy Helm package manager
+## Setup Helm package manager
+
+This involves installing Helm in your client and if using Helm v2 (default for now), deploying its in-cluster agent Tiller.
 
 ### TL;DR;
 
-This will install and deploy Helm v2.
+This will install Helm v2 and deploy Tiller.
 
 1. Install the Helm client following [your platform-specific instructions](//helm.sh/docs/using_helm/#installing-the-helm-client ). For Linux, use
 
@@ -23,8 +23,8 @@ export DESIRED_VERSION=v2.14.3
 curl -sSL https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash
 ```
 
-2. Create a cluster-admin role and init Helm following [the Example: Service account with cluster-admin role](//helm.sh/docs/using_helm/#example-service-account-with-cluster-admin-role )<br/><br/>
-**Important:** this will grant Helm's Tiller in-cluster agent `cluster-admin` privileges to enable getting started on most platforms. This should be fine-tuned for Production environments, see section [Secure Helm and Tiller](#securing-helm)
+2. Create a cluster-admin role and init Helm following [the Example: Service account with cluster-admin role](//helm.sh/docs/using_helm/#example-service-account-with-cluster-admin-role ). (Use the provided content to create a `rbac-config.yaml` file then execute the commands)<br/><br/>
+**Important:** this will grant Tiller  `cluster-admin` privileges to enable getting started on most platforms. This should be secured for Production environments, see section [Securing Helm and Tiller](#securing-helm)
 
 
 ### Introduction
@@ -34,7 +34,8 @@ curl -sSL https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash
 ### Installing Helm v2
 https://helm.sh/docs/using_helm/#installing-helm
 
-### Secure Helm and Tiller<a name="securing-helm"></a>
+### Securing Helm and Tiller<a name="securing-helm"></a>
+https://helm.sh/docs/using_helm/#securing-your-helm-installation
 https://helm.sh/docs/using_helm/#role-based-access-control
 
 ### Using Helm
