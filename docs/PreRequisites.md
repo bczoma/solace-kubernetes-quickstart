@@ -23,7 +23,6 @@ curl -sSL https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash
 ```
 
 2. Create a cluster-admin role and init Helm following [the Example: Service account with cluster-admin role](//helm.sh/docs/using_helm/#example-service-account-with-cluster-admin-role )
-
 **Important:** this will grant Helm's Tiller in-cluster agent `cluster-admin` privileges to enable getting started on most platforms. This should be fine-tuned for Production environments, see section [Secure Helm and Tiller](#securing-helm)
 
 
