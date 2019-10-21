@@ -1,5 +1,6 @@
 # Pre-requisites for the Solace PubSub+ Deployment
 
+<!-- TOC -->autoauto- [Pre-requisites for the Solace PubSub+ Deployment](#pre-requisites-for-the-solace-pubsub-deployment)auto  - [Perform any necessary platform-specific setup](#perform-any-necessary-platform-specific-setup)auto  - [Deploy Helm package manager](#deploy-helm-package-manager)auto    - [TL;DR;](#tldr)auto    - [Introduction](#introduction)auto    - [Installing Helm v2](#installing-helm-v2)auto    - [Secure Helm and Tiller<a name="securing-helm"></a>](#secure-helm-and-tillera-namesecuring-helma)auto    - [Using Helm](#using-helm)auto    - [Helm upgrade and rollback](#helm-upgrade-and-rollback)auto    - [Helm delete](#helm-delete)auto    - [Using Helm v3](#using-helm-v3)autoauto<!-- /TOC -->
 
 ## Perform any necessary platform-specific setup
 
