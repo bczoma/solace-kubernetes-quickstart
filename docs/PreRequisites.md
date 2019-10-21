@@ -1,5 +1,16 @@
 # Pre-requisites for the Solace PubSub+ Deployment
 
+  * [Perform any necessary platform-specific setup](#perform-any-necessary-platform-specific-setup)
+  * [Setup Helm package manager](#setup-helm-package-manager)
+    + [TL;DR;](#tl-dr-)
+    + [Introduction](#introduction)
+    + [Installing Helm v2](#installing-helm-v2)
+    + [Securing Helm and Tiller<a name="securing-helm"></a>](#securing-helm-and-tiller-a-name--securing-helm----a-)
+    + [Using Helm](#using-helm)
+    + [Helm upgrade and rollback](#helm-upgrade-and-rollback)
+    + [Helm delete](#helm-delete)
+    + [Using Helm v3](#using-helm-v3)
+
 ## Perform any necessary platform-specific setup
 
 - GCP
@@ -10,7 +21,7 @@
 
 ## Setup Helm package manager
 
-This involves installing Helm in your client and if using Helm v2 (default for now), deploying its in-cluster agent Tiller.
+This involves installing Helm on your command-line client and if using Helm v2 (default for now), deploying its in-cluster agent Tiller.
 
 ### TL;DR;
 
@@ -25,13 +36,17 @@ curl -sSL https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash
 
 
 ### Introduction
-- Helm 2
-- Helm 3
+
+The Solace PubSub+ event broker can be deployed using both Helm v2 and Helm v3. With Helm v3 just being released, most deployments currently use Helm v2.
 
 ### Installing Helm v2
-https://helm.sh/docs/using_helm/#installing-helm
+
+Follow the [instructions to install Helm](https://helm.sh/docs/using_helm/#installing-helm ) in your environment.
 
 ### Securing Helm and Tiller<a name="securing-helm"></a>
+
+The default 
+
 https://helm.sh/docs/using_helm/#securing-your-helm-installation
 https://helm.sh/docs/using_helm/#role-based-access-control
 
