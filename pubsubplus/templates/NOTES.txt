@@ -1,4 +1,19 @@
-** Please be patient while the chart is being deployed **
+== Your Solace PubSub+ deployment is in progress now ==
+
+Watch progress by running 'kubectl get pods --show-labels -w'
+
+Deployment is complete when a Solace pod representing an active event nroker node's label reports "active=true".
+
+If a pod(s) stuck in "Pending" status, refer to ***TroubleShooting.md***
+
+== Notes ==
+
+{{ if contains "dev" .Values.solace.size }}
+This is a minimum footprint deployment for development purposes without any guaranteed performance.
+{{ else }}
+The maximum concurrent connections for this deployment is:  {{ substr 4 10 .Values.solace.size }}
+{{ end }}
+
 
 **Image used**
 
@@ -7,7 +22,7 @@
 Credentials:
 
     Username      : admin
-    echo "Password      : kubectl get secret <release-name>-solace-secrets -o jsonpath="{.data.username_admin_password}" | base64 --decode"
+    Password      : kubectl get secret {{ template "solace.fullname" . }}-secrets -o jsonpath="{.data.username_admin_password}" | base64 --decode
 
 
 RabbitMQ can be accessed within the cluster on port {{ .Values.service.nodePort }} at {{ template "solace.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local
