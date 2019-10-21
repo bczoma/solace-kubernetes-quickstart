@@ -5,7 +5,7 @@
     + [TL;DR;](#tl-dr-)
     + [Introduction](#introduction)
     + [Installing Helm v2](#installing-helm-v2)
-    + [Securing Helm and Tiller<a name="securing-helm"></a>](#securing-helm-and-tiller-a-name--securing-helm----a-)
+    + [Securing Helm and Tiller](#securing-helm-and-tiller)
     + [Using Helm](#using-helm)
     + [Helm upgrade and rollback](#helm-upgrade-and-rollback)
     + [Helm delete](#helm-delete)
@@ -19,9 +19,13 @@
 - OpenShift
 - Minikube
 
-## Setup Helm package manager
+## Install the `kubectl` command-line tool
 
-This involves installing Helm on your command-line client and if using Helm v2 (default for now), deploying its in-cluster agent Tiller.
+Refer to [these instructions](//kubernetes.io/docs/tasks/tools/install-kubectl/) to install `kubectl` if your Kubernetes platform does not already provide this tool or equivalent (like `oc` in OpenShift).
+
+## Install and setup the Helm package manager
+
+This involves installing Helm on your command-line client and if using Helm v2 (default for now) deploying Tiller, its in-cluster operator.
 
 ### TL;DR;
 
@@ -32,34 +36,25 @@ curl -sSL https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash
 ```
 
 2. Create a cluster-admin role and init Helm following [the Example: Service account with cluster-admin role](//helm.sh/docs/using_helm/#example-service-account-with-cluster-admin-role ). (Use the provided content to create an `rbac-config.yaml` file then execute the commands)<br/><br/>
-**Important:** this will grant Tiller `cluster-admin` privileges to enable getting started on most platforms. This should be secured for Production environments, see section [Securing Helm and Tiller](#securing-helm)
+**Important:** this will grant Tiller `cluster-admin` privileges to enable getting started on most platforms. This should be secured for Production environments, see section [Securing Helm and Tiller](#securing-helm-and-tiller).
 
 
 ### Introduction
 
-The Solace PubSub+ event broker can be deployed using both Helm v2 and Helm v3. With Helm v3 just being released, most deployments currently use Helm v2.
+The Solace PubSub+ event broker can be deployed using both Helm v2 (stable) and Helm v3 (about to be released). Most deployments currently use Helm v2.
 
 ### Installing Helm v2
 
 Follow the [instructions to install Helm](https://helm.sh/docs/using_helm/#installing-helm ) in your environment.
 
-### Securing Helm and Tiller<a name="securing-helm"></a>
+### Securing Helm and Tiller
 
-The default 
+By default Tiller is deployed in a permissive configuration.
 
-https://helm.sh/docs/using_helm/#securing-your-helm-installation
-https://helm.sh/docs/using_helm/#role-based-access-control
+[Securing your Helm Installation](//helm.sh/docs/using_helm/#securing-your-helm-installation ) provides an overview of the Tiller-related security issues and recommended best practices.
 
-### Using Helm
-https://helm.sh/docs/using_helm/#using-helm
-
-Helm install command: https://helm.sh/docs/using_helm/#helm-install-installing-a-package
-Customizing the Chart Before Installing: https://helm.sh/docs/using_helm/#customizing-the-chart-before-installing
-
-### Helm upgrade and rollback
-https://helm.sh/docs/using_helm/#helm-upgrade-and-helm-rollback-upgrading-a-release-and-recovering-on-failure
-
-### Helm delete
-https://helm.sh/docs/using_helm/#helm-delete-deleting-a-release
+Particularly, the [Role-based Access Control section of the Helm documentation](//helm.sh/docs/using_helm/#role-based-access-control) provides options that should be used in recent RBAC-enabled Kubernetes environments (v1.6+).
 
 ### Using Helm v3
+
+The Helm 3 executable is available at https://github.com/helm/helm/releases. Installation of Tiller is no longer required. Ensure that your v3 installation does not conflict with an existing Helm v2 installation. Further (at this time draft) documentation is available from https://v3.helm.sh/.

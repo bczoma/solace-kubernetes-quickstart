@@ -4,6 +4,8 @@ This chart bootstraps a single-node or HA deployment of a [Solace PubSub+](https
 
 ## Solace Helm Chart Configuration
 
+//helm.sh/docs/using_helm/#customizing-the-chart-before-installing
+
 The following table lists the configurable parameters of the Solace chart and their default values.
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
@@ -28,3 +30,6 @@ $ helm install --name my-release \
 | `storage.persistent`           | `false` to use ephemeral storage at pod level; `true` to request persistent storage through a StorageClass | `true`, false is not recommended for production use  |
 | `storage.useStorageClass`      | Name of the StorageClass to be used to request persistent storage volumes                               | `standard`                                              |
 | `storage.size`                 | Size of the persistent storage to be used; Refer to the Solace documentation for storage configuration requirements | `20Gi`                                      |
+
+
+For more ways to override default values, refer to [Customizing the Chart Before Installing](//helm.sh/docs/using_helm/#customizing-the-chart-before-installing).
