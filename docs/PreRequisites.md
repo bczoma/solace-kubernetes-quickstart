@@ -29,13 +29,13 @@ This involves installing Helm on your command-line client and if using Helm v2 (
 
 ### TL;DR;
 
-1. Install the Helm client following [your platform-specific instructions](//helm.sh/docs/using_helm/#installing-the-helm-client ). For Linux, use:
+1. Install the Helm client following [your platform-specific instructions](//helm.sh/docs/using_helm/#installing-the-helm-client ). For Linux, you can use:
 ```shell
 export DESIRED_VERSION=v2.14.3
 curl -sSL https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash
 ```
 
-2. Create a cluster-admin role and init Helm following [the Example: Service account with cluster-admin role](//helm.sh/docs/using_helm/#example-service-account-with-cluster-admin-role ). (Use the provided content to create an `rbac-config.yaml` file then execute the commands)<br/><br/>
+2. Deploy Tiller by creating a cluster-admin role and initializing Helm following [the Example: Service account with cluster-admin role](//helm.sh/docs/using_helm/#example-service-account-with-cluster-admin-role ). (Use the provided content to create a `rbac-config.yaml` file then execute the commands below)<br/><br/>
 **Important:** this will grant Tiller `cluster-admin` privileges to enable getting started on most platforms. This should be secured for Production environments, see section [Securing Helm and Tiller](#securing-helm-and-tiller).
 
 
@@ -47,13 +47,16 @@ The Solace PubSub+ event broker can be deployed using both Helm v2 (stable) and 
 
 Follow the [instructions to install Helm](https://helm.sh/docs/using_helm/#installing-helm ) in your environment.
 
-### Securing Helm and Tiller
+### Security considerations
 
 By default Tiller is deployed in a permissive configuration.
 
 [Securing your Helm Installation](//helm.sh/docs/using_helm/#securing-your-helm-installation ) provides an overview of the Tiller-related security issues and recommended best practices.
 
 Particularly, the [Role-based Access Control section of the Helm documentation](//helm.sh/docs/using_helm/#role-based-access-control) provides options that should be used in recent RBAC-enabled Kubernetes environments (v1.6+).
+
+**Update Link**
+It is also possible to [use Helm v2 as a templating engine only, with no Tiller deployed](Ref to Solace HowTo), however Helm will not be able to manage your Kubernetes rollouts lifecycle.
 
 ### Using Helm v3
 
