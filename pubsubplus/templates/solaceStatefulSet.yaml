@@ -1,5 +1,5 @@
 # Create the StatefullSet, (petset), needed for redundancy
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: {{ template "solace.fullname" . }}
@@ -9,7 +9,10 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
-  serviceName: {{ template "solace.fullname" . }}-discovery
+  selector:
+    matchLabels:
+      app: {{ template "solace.name" . }}
+  release: {{ .Release.Name }}  serviceName: {{ template "solace.fullname" . }}-discovery
   replicas: {{- if .Values.solace.redundancy }} 3 {{- else }} 1 {{- end }}
 {{- if semverCompare ">=1.7-0" .Capabilities.KubeVersion.GitVersion }}  
   podManagementPolicy: Parallel
