@@ -46,8 +46,8 @@ storage:
   # Persistence set to false will use ephemeral storage and the rest of the storage params will be ignored
   #  false is not recommended for production use
   persistent: true
-  # Specified StorageClass must exist, verify it with `kubectl get sc`
-  useStorageClass: standard
+  # storage.useStorageClass: specified StorageClass must exist, verify it with `kubectl get sc`. Default is to use the default storage class.
+  # useStorageClass: standard
   # Refer to the Solace documentation for storage configuration requirements
   size: 20Gi
 
