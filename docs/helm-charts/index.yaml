@@ -2,10 +2,10 @@ apiVersion: v1
 entries:
   pubsubplus:
   - apiVersion: v1
-    created: "2019-10-24T10:23:10.9126169-04:00"
+    created: "2019-10-24T12:22:09.4184635-04:00"
     description: Deploy Solace PubSub+ Message Broker Singleton or HA Cluster onto
       a Kubernetes Cluster
-    digest: f5eed194c16d607715fb47e05e76dfa3552c51eff296964e9c3e1828848d8ee7
+    digest: 7002ccdd1d7b6ff9b771b710d0bde23edb442a56f45b09e13ddcafaa12a144a2
     home: https://dev.solace.com
     icon: https://solace.com/wp-content/uploads/2018/05/Solace_Logo_Green_360x100-1.png
     keywords:
@@ -36,4 +36,4 @@ entries:
     urls:
     - https://bczoma.github.io/solace-kubernetes-quickstart/helm-charts/pubsubplus-2.0.0.tgz
     version: 2.0.0
-generated: "2019-10-24T10:23:10.9116411-04:00"
+generated: "2019-10-24T12:22:09.4165115-04:00"
